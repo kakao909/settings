@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>kakao — CS2 Settings Showcase</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Inter & Architects Daughter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        handwritten: ['"Architects Daughter"', 'cursive'],
+                    },
+                    colors: {
+                        autumn: {
+                            bg: '#0F0B08',
+                            card: 'rgba(32, 22, 16, 0.85)',
+                            inner: 'rgba(18, 12, 8, 0.75)',
+                            border: 'rgba(245, 158, 11, 0.35)',
+                            borderHover: 'rgba(252, 211, 77, 0.6)',
+                            primary: '#F59E0B',
+                            accent: '#D97706',
+                            highlight: '#FCD34D',
+                            text: '#F9FAFB',
+                            muted: '#9CA3AF'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Base Setup */
+        html, body {
+            background-color: #0F0B08;
+            color: #F9FAFB;
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            scroll-behavior: smooth;
+        }
+
+        /* Hide system cursor on fine pointer devices */
+        @media (pointer: fine) {
+            body, body * {
+                cursor: none !important;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0F0B08;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2D1D13;
+            border-radius: 4px;
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #D97706;
+        }
+
+        /* Custom Liquid Cursor */
+        #cursor-dot, #cursor-ring {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            border-radius: 50%;
+            z-index: 999999;
+            transform: translate(-50%, -50%);
+            display: none;
+        }
+
+        #cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #FCD34D;
+            box-shadow: 0 0 10px #F59E0B, 0 0 4px #FFFFFF;
+            transition: width 0.15s ease, height 0.15s ease, background-color 0.15s ease;
+        }
+
+        #cursor-ring {
+            width: 36px;
+            height: 36px;
+            border: 1.5px solid rgba(245, 158, 11, 0.85);
+            background: rgba(217, 119, 6, 0.15);
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
+            transition: width 0.2s ease-out, height 0.2s ease-out, border-color 0.2s, background-color 0.2s;
+        }
+
+        body.cursor-hover #cursor-dot {
+            width: 14px;
+            height: 14px;
+            background-color: #FFFFFF;
+        }
+
+        body.cursor-hover #cursor-ring {
+            width: 52px;
+            height: 52px;
+            border-color: rgba(252, 211, 77, 0.95);
+            background: rgba(245, 158, 11, 0.28);
+            box-shadow: 0 0 25px rgba(245, 158, 11, 0.35);
+        }
+
+        /* High-Contrast Frosted Glass Card */
+        .glass-card {
+            background-color: rgba(32, 22, 16, 0.85);
+            backdrop-filter: blur(16px) saturate(160%);
+            -webkit-backdrop-filter: blur(16px) saturate(160%);
+            border: 1px solid rgba(245, 158, 11, 0.35);
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.8),
+                        inset 0 1px 0 0 rgba(255, 255, 255, 0.12);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(252, 211, 77, 0.6);
+            box-shadow: 0 15px 35px -5px rgba(217, 119, 6, 0.25),
+                        inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .inner-box {
+            background-color: rgba(18, 12, 8, 0.75);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            border-radius: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .inner-box:hover {
+            border-color: rgba(245, 158, 11, 0.45);
+            background-color: rgba(26, 18, 12, 0.85);
+        }
+
+        /* Glowing Text Effects */
+        .text-glow {
+            text-shadow: 0 0 20px rgba(245, 158, 11, 0.6);
+        }
+
+        /* Background Glow Orbs */
+        .ambient-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            pointer-events: none;
+            opacity: 0.25;
+            z-index: 0;
+        }
+    </style>
+</head>
+<body class="min-h-screen relative overflow-x-hidden selection:bg-amber-500/30 selection:text-amber-200">
+
+    <!-- Custom Liquid Cursor Elements -->
+    <div id="cursor-dot"></div>
+    <div id="cursor-ring"></div>
+
+    <!-- Ambient Glow Background -->
+    <div class="ambient-orb w-[500px] h-[500px] bg-amber-600 -top-32 -left-32"></div>
+    <div class="ambient-orb w-[600px] h-[600px] bg-orange-700 top-1/3 -right-48"></div>
+    <div class="ambient-orb w-[450px] h-[450px] bg-yellow-700 -bottom-20 left-1/3"></div>
+
+    <!-- Main Content Layout -->
+    <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
+
+        <!-- PROFILE HEADER CARD -->
+        <header class="glass-card rounded-3xl p-6 sm:p-8 relative overflow-hidden">
+            <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6 text-center sm:text-left">
+                
+                <!-- Avatar -->
+                <div class="relative group shrink-0">
+                    <div class="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden border-2 border-amber-500/50 shadow-2xl relative z-10 bg-neutral-900">
+                        <img 
+                            src="pfp.jpg" 
+                            alt="kakao profile picture" 
+                            class="w-full h-full object-cover transform group-hover:scale-105 transition duration-500"
+                            onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name=kakao&background=d97706&color=fff&size=256';"
+                        />
+                    </div>
+                    <div class="absolute -inset-1 bg-gradient-to-r from-amber-500 to-orange-600 rounded-2xl blur opacity-40 group-hover:opacity-75 transition duration-500"></div>
+                </div>
+
+                <!-- Info Block -->
+                <div class="space-y-3 flex-1">
+                    <div class="flex flex-wrap items-center justify-center sm:justify-start gap-3">
+                        <h1 class="font-handwritten text-5xl sm:text-6xl font-bold text-amber-400 text-glow tracking-wide">kakao</h1>
+                        
+                    </div>
+
+                    <div class="space-y-1">
+                        <p class="text-gray-100 font-medium text-base sm:text-lg">
+                            Counter-Strike player and peripheral nerd
+                        </p>
+                        <p class="text-xs sm:text-sm text-amber-400/90 font-medium tracking-wide">
+                            polish lurker & awper • dust 2 hater • gear enthusiast
+                        </p>
+                    </div>
+
+                    <!-- Social Icons -->
+                    <div class="flex items-center justify-center sm:justify-start gap-3 pt-1">
+                        <a href="https://steamcommunity.com/id/kakao888/" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-xl inner-box flex items-center justify-center text-amber-400 hover:text-white hover:border-amber-400 transition-all">
+                            <i class="fab fa-steam text-base"></i>
+                        </a>
+                        <a href="https://www.youtube.com/@soplicaegzotyczna" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-xl inner-box flex items-center justify-center text-amber-400 hover:text-white hover:border-amber-400 transition-all">
+                            <i class="fab fa-youtube text-base"></i>
+                        </a>
+                        
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- SETTINGS GRID SECTION -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <!-- Mouse & Aim Settings -->
+            <section class="glass-card rounded-3xl p-6 space-y-5">
+                <div class="flex items-center gap-3 border-b border-amber-500/20 pb-4">
+                    <div class="w-10 h-10 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400">
+                        <i class="fas fa-mouse text-lg"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-extrabold text-white tracking-wide">Mouse & Aim</h2>
+                        <p class="text-xs text-autumn-muted">Sensitivity & DPI Configuration</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="inner-box p-3.5">
+                        <span class="text-xs text-autumn-muted font-medium block">DPI</span>
+                        <span class="text-2xl font-black text-amber-400">800</span>
+                    </div>
+                    <div class="inner-box p-3.5">
+                        <span class="text-xs text-autumn-muted font-medium block">In-Game Sens</span>
+                        <span class="text-2xl font-black text-amber-400">1.17</span>
+                    </div>
+                    <div class="inner-box p-3.5">
+                        <span class="text-xs text-autumn-muted font-medium block">eDPI</span>
+                        <span class="text-lg font-bold text-gray-100">936</span>
+                    </div>
+                    <div class="inner-box p-3.5">
+                        <span class="text-xs text-autumn-muted font-medium block">Zoom Sens</span>
+                        <span class="text-lg font-bold text-gray-100">1.00</span>
+                    </div>
+                    <div class="inner-box p-3.5">
+                        <span class="text-xs text-autumn-muted font-medium block">Windows Sens</span>
+                        <span class="text-lg font-bold text-gray-100">6</span>
+                    </div>
+                    <div class="inner-box p-3.5">
+                        <span class="text-xs text-autumn-muted font-medium block">Polling Rate</span>
+                        <span class="text-lg font-bold text-gray-100">1000 Hz</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Video & Display Settings -->
+            <section class="glass-card rounded-3xl p-6 space-y-5">
+                <div class="flex items-center gap-3 border-b border-amber-500/20 pb-4">
+                    <div class="w-10 h-10 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400">
+                        <i class="fas fa-desktop text-lg"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-extrabold text-white tracking-wide">Video & Display</h2>
+                        <p class="text-xs text-autumn-muted">Resolution & Graphic Settings</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="inner-box p-3.5">
+                        <span class="text-xs text-autumn-muted font-medium block">Resolution</span>
+                        <span class="text-xl font-black text-amber-400">1280x960</span>
+                        <span class="text-[11px] text-gray-300 font-semibold block mt-0.5">4:3 Stretched</span>
+                    </div>
+                    <div class="inner-box p-3.5">
+                        <span class="text-xs text-autumn-muted font-medium block">Refresh Rate</span>
+                        <span class="text-xl font-black text-amber-400">280 Hz</span>
+                        <span class="text-[11px] text-gray-300 font-semibold block mt-0.5">DyAc 2 Premium</span>
+                    </div>
+                </div>
+
+                <div class="space-y-2 text-xs text-autumn-muted pt-1">
+                    <div class="flex justify-between items-center py-1.5 border-b border-white/5">
+                        <span>Boost Player Contrast</span>
+                        <span class="text-amber-300 font-bold bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">Enabled</span>
+                    </div>
+                    <div class="flex justify-between items-center py-1.5 border-b border-white/5">
+                        <span>Model / Texture Detail</span>
+                        <span class="text-gray-100 font-semibold">Low</span>
+                    </div>
+                    <div class="flex justify-between items-center py-1.5 border-b border-white/5">
+                        <span>Global Shadow Quality</span>
+                        <span class="text-gray-100 font-semibold">Low</span>
+                    </div>
+                    <div class="flex justify-between items-center py-1.5">
+                        <span>Multisampling Anti-Aliasing</span>
+                        <span class="text-gray-100 font-semibold">4x MSAA</span>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- COPYABLE CODES SECTION -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <!-- Crosshair Code -->
+            <div class="glass-card rounded-3xl p-6 space-y-3">
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-crosshairs text-amber-400 text-lg"></i>
+                    <h3 class="font-extrabold text-white text-sm uppercase tracking-wider">Crosshair Code</h3>
+                </div>
+                <div class="inner-box p-3 flex items-center justify-between gap-2 font-mono text-xs text-amber-300">
+                    <span class="truncate selection:bg-amber-500/40">CSH2Rx7cGRU5apQ4VSnZwjsr9RyLEiOrCAaVYWYvW6dz7H</span>
+                    <button onclick="copyText('CSH2Rx7cGRU5apQ4VSnZwjsr9RyLEiOrCAaVYWYvW6dz7H', this)" class="px-3 py-1.5 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-300 hover:bg-amber-500 hover:text-black font-sans font-bold text-xs transition shrink-0 flex items-center gap-1.5">
+                        <i class="far fa-copy"></i>
+                        <span>Copy</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Launch Options -->
+            <div class="glass-card rounded-3xl p-6 space-y-3">
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-terminal text-amber-400 text-lg"></i>
+                    <h3 class="font-extrabold text-white text-sm uppercase tracking-wider">Launch Options</h3>
+                </div>
+                <div class="inner-box p-3 flex items-center justify-between gap-2 font-mono text-xs text-amber-300">
+                    <span class="truncate selection:bg-amber-500/40">-novid -tickrate 128</span>
+                    <button onclick="copyText('-novid -tickrate 128', this)" class="px-3 py-1.5 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-300 hover:bg-amber-500 hover:text-black font-sans font-bold text-xs transition shrink-0 flex items-center gap-1.5">
+                        <i class="far fa-copy"></i>
+                        <span>Copy</span>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- HARDWARE & SPECS GRID -->
+        <section class="glass-card rounded-3xl p-6 sm:p-8 space-y-5">
+            <div class="flex items-center gap-3 border-b border-amber-500/20 pb-4">
+                <div class="w-10 h-10 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400">
+                    <i class="fas fa-microchip text-lg"></i>
+                </div>
+                <div>
+                    <h2 class="text-lg font-extrabold text-white tracking-wide">Hardware & Peripherals</h2>
+                    <p class="text-xs text-autumn-muted">Gear & Gaming Setup Specifications</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                <div class="inner-box p-4 flex items-center gap-3.5">
+                    <div class="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400 text-lg shrink-0">
+                        <i class="fas fa-mouse"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs text-autumn-muted font-medium block">Mouse</span>
+                        <span class="text-sm font-bold text-white">Lamzu Atlantis Mini</span>
+                    </div>
+                </div>
+
+                <div class="inner-box p-4 flex items-center gap-3.5">
+                    <div class="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400 text-lg shrink-0">
+                        <i class="fas fa-square"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs text-autumn-muted font-medium block">Mousepad</span>
+                        <span class="text-sm font-bold text-white">Artisan Type-99 Soft</span>
+                        <span class="text-[11px] text-emerald-400 font-bold block">Matcha Green Edition</span>
+                    </div>
+                </div>
+
+                <div class="inner-box p-4 flex items-center gap-3.5">
+                    <div class="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400 text-lg shrink-0">
+                        <i class="fas fa-keyboard"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs text-autumn-muted font-medium block">Keyboard</span>
+                        <span class="text-sm font-bold text-white">Custom Zoom75</span>
+                    </div>
+                </div>
+
+                <div class="inner-box p-4 flex items-center gap-3.5">
+                    <div class="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400 text-lg shrink-0">
+                        <i class="fas fa-headphones"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs text-autumn-muted font-medium block">In-Ear Monitors</span>
+                        <span class="text-sm font-bold text-white">Moondrop CHU II</span>
+                    </div>
+                </div>
+
+                <div class="inner-box p-4 flex items-center gap-3.5">
+                    <div class="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400 text-lg shrink-0">
+                        <i class="fas fa-tv"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs text-autumn-muted font-medium block">Monitor</span>
+                        <span class="text-sm font-bold text-white">Zowie XL2546X+</span>
+                        <span class="text-[11px] text-autumn-muted block">280Hz / DyAc 2</span>
+                    </div>
+                </div>
+
+                <div class="inner-box p-4 flex items-center gap-3.5">
+                    <div class="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-400 text-lg shrink-0">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs text-autumn-muted font-medium block">PC Specs</span>
+                        <span class="text-sm font-bold text-white">7600 + RTX 4070S</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="pt-6 pb-2 border-t border-amber-500/20 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+            <div class="flex items-center gap-3">
+                <span class="font-handwritten text-3xl text-amber-400 font-bold">kakao</span>
+                <span class="text-xs text-autumn-muted border-l border-amber-500/20 pl-3">CS2 Settings Showcase</span>
+            </div>
+
+            <div class="flex items-center gap-5">
+                <a href="https://steamcommunity.com" target="_blank" rel="noopener noreferrer" class="text-autumn-muted hover:text-amber-400 transition">
+                    <i class="fab fa-steam text-lg"></i>
+                </a>
+                <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="text-autumn-muted hover:text-amber-400 transition">
+                    <i class="fab fa-youtube text-lg"></i>
+                </a>
+                <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="text-xs font-bold text-amber-400 hover:text-amber-300 transition flex items-center gap-1.5 bg-amber-500/10 px-3 py-1.5 rounded-lg border border-amber-500/20">
+                    <span>Top</span>
+                    <i class="fas fa-chevron-up text-[10px]"></i>
+                </button>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Custom Liquid Cursor Implementation
+        const dot = document.getElementById('cursor-dot');
+        const ring = document.getElementById('cursor-ring');
+
+        let targetX = -100, targetY = -100;
+        let ringX = -100, ringY = -100;
+        let isCursorActive = false;
+
+        // Show and position liquid cursor when a mouse pointer is detected
+        window.addEventListener('mousemove', (e) => {
+            targetX = e.clientX;
+            targetY = e.clientY;
+
+            if (!isCursorActive) {
+                isCursorActive = true;
+                if (dot) dot.style.display = 'block';
+                if (ring) ring.style.display = 'block';
+            }
+
+            if (dot) {
+                dot.style.left = `${targetX}px`;
+                dot.style.top = `${targetY}px`;
+            }
+        });
+
+        // Smooth LERP loop for outer liquid ring
+        function renderCursor() {
+            if (isCursorActive && ring) {
+                ringX += (targetX - ringX) * 0.22;
+                ringY += (targetY - ringY) * 0.22;
+
+                ring.style.left = `${ringX}px`;
+                ring.style.top = `${ringY}px`;
+            }
+            requestAnimationFrame(renderCursor);
+        }
+        renderCursor();
+
+        // Expand cursor on interactive elements
+        document.querySelectorAll('a, button, input, .glass-card, .inner-box').forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+        });
+
+        // Clipboard Copy Helper
+        function copyText(text, btn) {
+            function updateBtn() {
+                const icon = btn.querySelector('i');
+                const span = btn.querySelector('span');
+                if (span) span.innerText = 'Copied!';
+                if (icon) icon.className = 'fas fa-check text-emerald-400';
+                btn.classList.add('bg-emerald-500/20', 'border-emerald-500/50', 'text-emerald-300');
+
+                setTimeout(() => {
+                    if (span) span.innerText = 'Copy';
+                    if (icon) icon.className = 'far fa-copy';
+                    btn.classList.remove('bg-emerald-500/20', 'border-emerald-500/50', 'text-emerald-300');
+                }, 2000);
+            }
+
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(updateBtn).catch(() => fallbackCopy(text, updateBtn));
+            } else {
+                fallbackCopy(text, updateBtn);
+            }
+        }
+
+        function fallbackCopy(text, callback) {
+            const tempInput = document.createElement('input');
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            try {
+                document.execCommand('copy');
+                callback();
+            } catch (err) {
+                console.error('Copy failed', err);
+            }
+            document.body.removeChild(tempInput);
+        }
+    </script>
+</body>
+</html>
